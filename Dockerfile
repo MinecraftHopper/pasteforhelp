@@ -18,6 +18,8 @@ RUN go mod download && go mod verify
 
 COPY . .
 
+ARG TARGETPLATFORM
+
 RUN xx-apk add musl-dev gcc
 RUN xx-go build -o pasteforhelp -buildvcs=false -v github.com/minecrafthopper/pasteforhelp
 RUN xx-verify /build/pasteforhelp
