@@ -1,0 +1,19 @@
+body {
+    max-width: 80% !important;
+}
+
+#settings {
+    display: none !important;
+}
+
+#content-input {
+    height: 70vh !important;
+}
+
+a[href^="/edit/"] {
+    display: none !important;
+}
+
+a[href^="/remove/"] {
+    display: none !important;
+}

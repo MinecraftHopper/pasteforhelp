@@ -1,0 +1,109 @@
+{{template "base" .}}
+
+{{define "body"}}
+<form id="pasta-form" action="upload" method="POST" enctype="multipart/form-data">
+    <br>
+
+    <label for="content-input">Content</label>
+    <textarea style="width: 100%; min-height: 100px; margin-bottom: 2em; font-family: monospace;" id="content-input"
+              autofocus placeholder="Type something here."></textarea>
+    <div>
+
+        <b>
+            <input style="width: 140px; float: right; background-color:
+            #2975D2; color: white;" id="submit-button" type="submit" value="Save"/>
+        </b>
+    </div>
+
+    <input type="hidden" name="content" id="content">
+</form>
+<br>
+<br>
+<script>
+    const form = document.getElementById("pasta-form");
+    const submitButton = document.getElementById("submit-button");
+    const contentInput = document.getElementById("content-input");
+    const content = document.getElementById("content");
+
+    form.onsubmit = async function (event) {
+        event.preventDefault();
+
+        content.value = contentInput.value;
+
+        let showProgress = false;
+
+        submitButton.disabled = true;
+        submitButton.textContent = 'Uploading...';
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '/upload', true);
+
+        xhr.upload.onprogress = function (event) {
+            if (showProgress) {
+                const progressPercent = Math.round((event.loaded / event.total) * 100);
+                submitButton.value = `${progressPercent}%`;
+            }
+        };
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200 || xhr.status === 302) {
+                    window.location.href = xhr.responseURL;
+                } else {
+                    console.log('Request failed with status:', xhr.status);
+                }
+            }
+        };
+
+        const formData = new FormData(form);
+        xhr.send(formData);
+
+        showProgressTimeout = setTimeout(() => {
+            showProgress = true;
+        }, 1000);
+    };
+</script>
+
+<style>
+    input::file-selector-button {
+        display: none;
+    }
+
+    #settings {
+        display: grid;
+        grid-gap: 10px;
+        grid-template-columns: repeat(auto-fit, 152px);
+        grid-template-rows: repeat(1, 90px);
+        margin-bottom: 1rem;
+    }
+
+    select {
+        height: 3rem;
+
+    }
+
+    /* {% if !args.pure_html %} */
+    #attach-file-button-label {
+        cursor: pointer;
+        padding: 0.5rem;
+        border: #2975D2 2px dotted;
+        border-radius: 6px;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        font-size: smaller;
+        min-width: 235px;
+        text-align: center;
+    }
+
+    /* {% endif %} */
+
+    #file {
+        display: none;
+    }
+
+    #file-select {
+        float: left;
+    }
+</style>
+
+{{end}}

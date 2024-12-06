@@ -1,0 +1,103 @@
+{{template "base" .}}
+
+{{define "body"}}
+<div style="float: left">
+    <a style="margin-right: 1rem" href="/raw/{{ .id }}">Raw Text Content</a>
+</div>
+<div style="float: right">
+    <a style="margin-right: 0.5rem" href="/upload/{{ .id }}"><i>{{ .id }}</i></a>
+    <button id="copy-url-button" class="small-button" style="margin-right: 0">
+        Copy URL
+    </button>
+</div>
+
+<br>
+<br>
+<br>
+
+<div class="code-container">
+    <div style="clear: both;">
+        <pre><code id="code">{{ .content }}</code></pre>
+    </div>
+</div>
+<br>
+
+<script type="text/javascript" src="/static/highlight/highlight.min.js"></script>
+<link rel="stylesheet" href="/static/highlight/highlight.min.css">
+
+<script>
+    const copyURLBtn = document.getElementById("copy-url-button")
+
+    if (copyURLBtn) {
+        copyURLBtn.addEventListener("click", () => {
+            navigator.clipboard.writeText(window.location.href)
+            copyURLBtn.innerHTML = "Copied"
+            setTimeout(() => {
+                copyURLBtn.innerHTML = "Copy URL"
+            }, 1000)
+        })
+    }
+</script>
+
+<style>
+    code-line {
+        counter-increment: line;
+        text-align: right;
+        float: left;
+        clear: left;
+    }
+
+    code-line::before {
+        content: counter(line);
+        display: inline-block;
+        padding-left: auto;
+        margin-left: auto;
+        text-align: left;
+        width: 1.8rem;
+        border-right: 1px solid lightgrey;
+        color: grey;
+        margin-right: 0.4rem;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    #code {
+        min-height: 2rem;
+    }
+
+    #embed {
+        background-color: #f7f7f7;
+        border-radius: 6px;
+        width: fit-content;
+        margin: 1rem auto;
+        max-height: 480px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .download-button {
+        margin-left: 1rem;
+        font-size: small;
+        padding: 4px 0.8rem;
+        cursor: pointer;
+    }
+
+    .code-container {
+        position: relative;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .small-button {
+        font-size: small;
+        padding: 4px 0.8rem;
+        cursor: pointer;
+    }
+</style>
+
+{{end}}

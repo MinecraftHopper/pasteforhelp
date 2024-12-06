@@ -1,0 +1,28 @@
+{{define "base"}}
+<html lang="en">
+
+<head>
+    <title>PasteFor Help</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.ico">
+
+    <script type="text/javascript" src="/static/aes.js"></script>
+    <link rel="stylesheet" href="/static/water.css">
+    <link rel="stylesheet" href="/static/overrides.css">
+
+</head>
+
+<body style="max-width: 1080px; margin: auto; padding-left:0.5rem; padding-right:0.5rem; line-height: 1.5; font-size: 1.1em; padding-top: 2rem;">
+<br>
+
+<div id="nav" style="margin-bottom: 1rem;">
+    <a href="/" style="margin-right: 0.5rem; margin-left: 0.5rem">New</a>
+</div>
+
+{{template "body" .}}
+
+</body>
+</html>
+{{end}}
